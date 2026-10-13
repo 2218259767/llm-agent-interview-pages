@@ -17,7 +17,10 @@
 <li><strong>FlashAttention</strong>负责注意力计算中的数据搬运；PagedAttention 负责持久 KV 的布局与访问，两者可以结合。</li>
 <li><strong>GQA/MQA 与 KV 量化</strong>分别从 KV 头数和每元素字节数减少缓存体积。</li>
 </ul>
-<p>单请求延迟要结合块表访问、批大小和排队时间观察；高并发服务通常同时关注吞吐、首 token 延迟与逐 token 延迟。</p>
+<h3>吞吐提高后，用户响应为什么也可能更快？</h3>
+<p>原笔记专门区分了吞吐和单请求延迟，这个追问需要沿着服务过程解释。用户提交请求后，可能先在队列里等待，再进入 prefill，随后逐 token 解码。PagedAttention 提高了 KV Cache 的利用率，一张卡能同时容纳更多活跃序列；配合调度器，就有机会更早接收等待中的请求，缩短排队时间。</p>
+<p>例如模型原先因 KV 预留浪费只能并发处理较少请求，其他用户得等待已有请求结束。分块按需分配后，尚未使用的缓存空间可以服务更多请求，高并发下的单位时间处理量增加，等待也随之减少。这是缓存管理改善用户响应体验的一条直接路径。</p>
+<p>对于已经在运行的单个请求，要看另一些因素：注意力内核需要根据块表访问 K/V，块大小会影响访问方式，更大的 batch 也会改变每次迭代的耗时。因此评估时分开记录三件事：<strong>吞吐衡量整体处理能力，首 token 延迟反映等待与 prefill，逐 token 延迟反映生成过程的速度</strong>。用这三个指标对照相同的并发和长度分布，才能说明优化收益具体出现在哪里。</p>
 </div></details><section id="sources" class="article-section "><h2>来源与版本</h2><div class="prose"><ul>
 <li>本地旧八股：<code>高频问题——来源于面经/04-推理优化.md</code>，原问题“1 PagedAttention”。</li>
 <li><a href="https://arxiv.org/abs/2309.06180" target="_blank" rel="noopener noreferrer">PagedAttention 原论文</a>。</li>
