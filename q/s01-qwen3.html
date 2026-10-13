@@ -14,8 +14,8 @@
 <h3>4. 架构：延续主干，调整注意力与 MoE</h3>
 <p>Dense 模型继续使用 GQA、RoPE、SwiGLU 和 Pre-Norm RMSNorm。相对前代，两个明确改动是：</p>
 <ul>
-<li>**去掉 QKV-bias：**Q、K、V 的投影使用无偏置线性层。</li>
-<li>**引入 QK-Norm：**注意力点积前归一化 Q、K 的尺度，帮助大规模训练稳定。</li>
+<li><strong>去掉 QKV-bias</strong>：Q、K、V 的投影使用无偏置线性层。</li>
+<li><strong>引入 QK-Norm</strong>：注意力点积前归一化 Q、K 的尺度，帮助大规模训练稳定。</li>
 </ul>
 <p>MoE 使用细粒度专家，报告配置为 <strong>128 个专家、每 token 激活 8 个</strong>，去掉 Qwen2.5-MoE 路线中的共享专家，并采用全局 batch 负载均衡。这样通过稀疏激活提高容量，同时管理专家分工。</p>
 <h3>5. 后训练：四阶段路线与小模型蒸馏</h3>

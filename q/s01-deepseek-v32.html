@@ -11,10 +11,10 @@
 <h3>3. 大规模 RL：让长时间优化保持稳定</h3>
 <p>报告的后训练计算预算超过预训练成本的 10%，继续采用 GRPO 路线，并处理多次更新及推理/训练实现差异带来的问题。原文中的几个要点可以这样理解：</p>
 <ul>
-<li>**KL 估计修正：**使采样下的正则估计与策略优化更好地匹配。</li>
-<li>**Off-Policy Sequence Masking：**对负优势且与当前策略偏离超过阈值的序列屏蔽策略梯度，减少严重过时负样本对更新的干扰。</li>
-<li>**Keep Routing：**保存采样时的 MoE 专家路由，训练时沿用，让生成与优化作用在一致的专家路径上。</li>
-<li>**Keep Sampling Mask：**保留采样时的 Top-p/Top-k 截断集合，在训练中使用同一动作范围。</li>
+<li><strong>KL 估计修正</strong>：使采样下的正则估计与策略优化更好地匹配。</li>
+<li><strong>Off-Policy Sequence Masking</strong>：对负优势且与当前策略偏离超过阈值的序列屏蔽策略梯度，减少严重过时负样本对更新的干扰。</li>
+<li><strong>Keep Routing</strong>：保存采样时的 MoE 专家路由，训练时沿用，让生成与优化作用在一致的专家路径上。</li>
+<li><strong>Keep Sampling Mask</strong>：保留采样时的 Top-p/Top-k 截断集合，在训练中使用同一动作范围。</li>
 </ul>
 <p>这些细节都围绕同一目标：让收集到的轨迹和实际优化过程保持一致，从而让更多 RL 计算有效转化为能力提升。</p>
 <h3>4. Thinking in Tool-Use：把思考与工具交互连起来</h3>

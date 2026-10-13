@@ -14,8 +14,8 @@
 <li>文本匹配：把句对联合编码，再计算相关性。</li>
 </ul>
 <h3>3. 两个原始预训练任务</h3>
-<p>**MLM（Masked Language Modeling）**抽取部分输入位置、扰动它们，再根据上下文恢复原 token。这个目标让模型学会利用左右两侧信息。</p>
-<p>**NSP（Next Sentence Prediction）**输入句子 A、B，判断 B 是否为 A 的真实后续句。原论文用真实相邻句和随机配对句组织二分类训练，用于学习句间关系。</p>
+<p><strong>MLM（Masked Language Modeling）</strong> 抽取部分输入位置、扰动它们，再根据上下文恢复原 token。这个目标让模型学会利用左右两侧信息。</p>
+<p><strong>NSP（Next Sentence Prediction）</strong> 输入句子 A、B，判断 B 是否为 A 的真实后续句。原论文用真实相邻句和随机配对句组织二分类训练，用于学习句间关系。</p>
 <p>预训练得到通用表示后，微调阶段加上任务头，与 BERT 参数一起优化。这样大量无标注文本学到的语言知识就能迁移到较小的有标注任务。</p>
 <h3>4. 与生成模型的关系</h3>
 <p>BERT 主要学习完整输入的双向表示，适合分类、抽取和匹配。Decoder-only 通过因果注意力学习下一 token 预测，适合连续生成。两者都使用 Transformer 组件，核心差异在可见上下文与训练目标。</p>

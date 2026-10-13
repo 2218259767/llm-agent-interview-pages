@@ -3,8 +3,8 @@
 <p>MLM 先选中约 15% 的 token，再对这些位置做 80% 替换成 MASK、10% 随机替换、10% 保持原样。所有选中的位置都预测原 token，保持原样的那部分也参与损失。</p>
 <p>这样设计是为了让模型既学会利用上下文填空，也能处理正常和带扰动的文本。因为下游分类、抽取任务通常不会出现 MASK，混合策略可以减轻预训练和下游输入形态的差异。我会特别强调，15% 是选监督位置，80/10/10 是对这些位置做输入处理，两层比例对应的是两件事。</p>
 </div></section><details open class="knowledge-section" id="notes"><summary><span>详细知识笔记</span><span class="details-hint">展开 / 收起</span></summary><div class="prose"><h3>1. 原始 BERT 的两个任务</h3>
-<p>**MLM：掩码语言建模。**模型根据左右上下文恢复被选中位置的原始 token，训练双向语义表示。</p>
-<p>**NSP：下一句预测。**给定句子 A 和 B，判断 B 是否是 A 的真实后续句。原论文构造一半真实相邻句、一半随机配对句，用 <code>[CLS]</code> 表示做二分类。</p>
+<p><strong>MLM：掩码语言建模</strong>。模型根据左右上下文恢复被选中位置的原始 token，训练双向语义表示。</p>
+<p><strong>NSP：下一句预测</strong>。给定句子 A 和 B，判断 B 是否是 A 的真实后续句。原论文构造一半真实相邻句、一半随机配对句，用 <code>[CLS]</code> 表示做二分类。</p>
 <h3>2. MLM 的采样与替换分成两步</h3>
 <p>先随机选中约 <strong>15%</strong> 的输入 token 作为预测目标；再在这些被选中的位置里采用：</p>
 <div class="table-scroll" tabindex="0"><table><thead>
